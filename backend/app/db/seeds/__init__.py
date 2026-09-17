@@ -1,0 +1,3 @@
+"""
+AgriClutch DB Seeds Package.
+"""

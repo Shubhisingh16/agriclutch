@@ -1,0 +1,17 @@
+# SYNTHETIC TEST FIXTURE — NOT REAL MARKET DATA
+record_date,source_name,source_record_id,source_market_id,source_commodity_id,variety,grade,original_modal_price,original_min_price,original_max_price,original_price_unit,arrival_tonnes
+2024-09-10,SYNTHETIC_DEMO,SYN_001,Chandigarh,Tomato,Common,FAQ,2800.0,2500.0,3000.0,Rs/Quintal,42.5
+2024-09-11,SYNTHETIC_DEMO,SYN_002,Chandigarh,Tomato,Common,FAQ,2850.0,2600.0,3100.0,Rs/Quintal,40.0
+2024-09-12,SYNTHETIC_DEMO,SYN_003,Chandigarh,Tomato,Common,FAQ,2900.0,2650.0,3150.0,Rs/Quintal,38.0
+2024-09-13,SYNTHETIC_DEMO,SYN_004,Chandigarh,Tomato,Common,FAQ,3000.0,2700.0,3200.0,Rs/Quintal,35.0
+2024-09-14,SYNTHETIC_DEMO,SYN_005,Chandigarh,Tomato,Common,FAQ,2950.0,2700.0,3100.0,Rs/Quintal,45.0
+2024-09-10,SYNTHETIC_DEMO,SYN_006,Panchkula,Tomato,Common,FAQ,2750.0,2450.0,2950.0,Rs/Quintal,18.0
+2024-09-11,SYNTHETIC_DEMO,SYN_007,Panchkula,Tomato,Common,FAQ,2800.0,2500.0,3000.0,Rs/Quintal,16.5
+2024-09-12,SYNTHETIC_DEMO,SYN_008,Panchkula,Tomato,Common,FAQ,2850.0,2550.0,3050.0,Rs/Quintal,15.0
+2024-09-10,SYNTHETIC_DEMO,SYN_009,Chandigarh,Onion,Common,FAQ,3200.0,2900.0,3500.0,Rs/Quintal,65.0
+2024-09-11,SYNTHETIC_DEMO,SYN_010,Chandigarh,Onion,Common,FAQ,3250.0,3000.0,3550.0,Rs/Quintal,60.0
+2024-09-12,SYNTHETIC_DEMO,SYN_011,Chandigarh,Onion,Common,FAQ,3300.0,3000.0,3600.0,Rs/Quintal,58.0
+2024-09-10,SYNTHETIC_DEMO,SYN_012,Patiala,Potato,Common,FAQ,1800.0,1600.0,2000.0,Rs/Quintal,85.0
+2024-09-11,SYNTHETIC_DEMO,SYN_013,Patiala,Potato,Common,FAQ,1820.0,1650.0,2000.0,Rs/Quintal,82.0
+2024-09-10,SYNTHETIC_DEMO,SYN_014,Azadpur,Tomato,Common,FAQ,3100.0,2800.0,3400.0,Rs/Quintal,210.0
+2024-09-11,SYNTHETIC_DEMO,SYN_015,Azadpur,Tomato,Common,FAQ,3150.0,2850.0,3450.0,Rs/Quintal,195.0
