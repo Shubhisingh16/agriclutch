@@ -14,6 +14,9 @@ import { DataQualityPanel } from "@/components/dashboard/DataQualityPanel";
 import { MarketMap } from "@/components/dashboard/MarketMap";
 import { ForecastCard } from "@/components/dashboard/ForecastCard";
 import { NRVCard } from "@/components/dashboard/NRVCard";
+import { BuyerIntelligencePanel } from "@/components/buyer/BuyerIntelligencePanel";
+import { LogisticsPanel } from "@/components/logistics/LogisticsPanel";
+import { StoragePanel } from "@/components/logistics/StoragePanel";
 import { LoadingState, EmptyState, ErrorState } from "@/components/dashboard/StatusState";
 
 interface SystemHealth {
@@ -270,7 +273,7 @@ export default function Home() {
     { id: "dashboard", label: "Market Intelligence", icon: "📊", badge: "Active" },
     { id: "forecast", label: "Price Forecast", icon: "🔮", badge: "P10/50/90" },
     { id: "nrv", label: "Net Realizable Value", icon: "💰", badge: "NRV Engine" },
-    { id: "buyers", label: "Buyer Intelligence", icon: "🤝", badge: "Verified" },
+    { id: "buyers", label: "Buyer Intelligence", icon: "🤝", badge: "Demand" },
     { id: "plan", label: "Optimal Selling Plan", icon: "🎯", badge: "Solver" },
     { id: "simulator", label: "What-If Simulator", icon: "🧪", badge: "Risk" },
     { id: "logistics", label: "Logistics & Routing", icon: "🚛", badge: "Freight" },
@@ -558,6 +561,24 @@ export default function Home() {
                     marketId={selectedMarketId || "mandi_ch_49"}
                     marketName={activeMarket?.name || "Chandigarh (APMC)"}
                     historicalObservations={prices}
+                  />
+                </div>
+              ) : activeTab === "buyers" ? (
+                <div className="space-y-6">
+                  <BuyerIntelligencePanel
+                    selectedCommodityId={selectedCommodityId || "tomato"}
+                  />
+                </div>
+              ) : activeTab === "logistics" ? (
+                <div className="space-y-6">
+                  <LogisticsPanel
+                    selectedCommodityId={selectedCommodityId || "tomato"}
+                  />
+                </div>
+              ) : activeTab === "storage" ? (
+                <div className="space-y-6">
+                  <StoragePanel
+                    selectedCommodityId={selectedCommodityId || "tomato"}
                   />
                 </div>
               ) : activeTab === "dashboard" ? (

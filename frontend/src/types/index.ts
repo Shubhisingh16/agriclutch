@@ -3,3 +3,5 @@
  */
 
 export * from "../lib/api/types";
+export * from "./buyer";
+export * from "./logistics";

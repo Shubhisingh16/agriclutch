@@ -626,6 +626,21 @@ Subject to:
 2. **Physical Storage Constraint**: $t_{\text{hold}} \le \text{MaxStorageDuration}(\text{crop}, \text{storage\_type})$.
 3. **Quality Constraint**: Produce held past $T_{\text{downgrade}}$ incurs a quality downgrade discount.
 
+### 8.2 Buyer Matching & Demand Aggregation Engine (Step 12)
+The buyer intelligence subsystem provides structured, auditable buyer and regional demand inputs for downstream optimization:
+1. **Multi-Dimensional Compatibility Matching (`ml/buyer/compatibility.py`)**:
+   - Conjunction over commodity match, variety match, quality grade hierarchy, quantity boundaries (with compatible vs. unmatched partitioning), temporal overlap, and geodesic Haversine distance.
+   - Evaluates transparent, additive justification bullets for every matched or rejected requirement.
+2. **Empirical Reliability Auditing (`ml/buyer/reliability.py`)**:
+   - Computes fulfillment rate, cancellation rate, payment delay days, and dispute frequency from immutable transaction ledgers.
+   - Strictly enforces statistical significance threshold ($N \ge 3$); suppresses scores if sample size is insufficient.
+3. **Regional Demand Depth & Market Concentration (`ml/buyer/aggregation.py`)**:
+   - Aggregates total stated demand volume, quality grade breakdown, and buyer channel breakdown.
+   - Computes Herfindahl-Hirschman Index ($HHI = 10,000 \times \sum s_i^2$) and top-buyer market share percentage.
+   - Generates parametric and quantile order size distributions (min, P10, P25, P50, P75, P90, max, mean) with $N \ge 3$ gating.
+4. **Strict Non-Normative Governance**:
+   - Step 12 strictly outputs factual constraints and empirical metrics. Zero normative rankings, winner badges, or selling directives are issued.
+
 ---
 
 ## 9. REST API Data Contracts & Endpoint Specifications
@@ -778,6 +793,189 @@ Dynamically recalculates the optimization surface based on user slider adjustmen
   "is_recalculated_by_backend": true
 }
 ```
+
+---
+
+### 9.5 Buyer Intelligence & Matching Endpoints (Step 12)
+
+#### `POST /api/v1/buyer-matching`
+Evaluates multi-dimensional compatibility between a farmer supply lot and commercial buyer requirements.
+
+##### Request Payload
+```json
+{
+  "commodity_id": "tomato",
+  "variety": "Himsona",
+  "quantity_kg": 2500.0,
+  "quality_grade": "GRADE_A",
+  "available_from": "2026-10-01",
+  "available_until": "2026-10-10",
+  "origin_location": "Mohali Rural Farmgate",
+  "origin_latitude": 30.6942,
+  "origin_longitude": 76.7179,
+  "storage_available": true,
+  "storage_type": "farm_ambient"
+}
+```
+
+##### Response Payload (200 OK)
+```json
+{
+  "supply_id": "sup-mock-001",
+  "commodity_id": "tomato",
+  "total_supply_kg": 2500.0,
+  "matches_evaluated": 6,
+  "compatible_matches_count": 4,
+  "matches": [
+    {
+      "buyer_id": "byr_pb_proc_01",
+      "buyer_name": "Punjab Agro Foods Ltd",
+      "requirement_id": "req_pb_01",
+      "commodity_id": "tomato",
+      "variety_match": true,
+      "quality_match": true,
+      "preferred_grade": "GRADE_A",
+      "acceptable_grades": ["GRADE_A", "GRADE_B"],
+      "quantity_status": "FULLY_SATISFIES",
+      "compatible_quantity_kg": 2500.0,
+      "unmatched_supply_kg": 0.0,
+      "temporal_status": "COMPLETE_OVERLAP",
+      "overlap_days": 10,
+      "distance_status": "DISTANCE_DIRECT",
+      "distance_km": 18.4,
+      "delivery_mode": "BUYER_PREMISES",
+      "delivery_location": "Sirhind Industrial Area, Fatehgarh Sahib",
+      "price_basis": "FIXED_QUOTE",
+      "quoted_price": 28.50,
+      "payment_terms": "IMMEDIATE_CASH",
+      "is_compatible": true,
+      "explanations": [
+        "Quality Grade A matches requirement [Grade A, Grade B]",
+        "Quantity 2,500 kg satisfies requirement range [1,000 - 5,000 kg]",
+        "Temporal overlap of 10 days (2026-10-01 to 2026-10-10)",
+        "Distance 18.4 km within delivery radius 40.0 km"
+      ],
+      "provenance_status": "DEMO",
+      "is_demo": true
+    }
+  ]
+}
+```
+
+#### `GET /api/v1/demand/aggregate`
+Returns regional demand volume, quality breakdown, and HHI market concentration.
+
+##### Response Payload (200 OK)
+```json
+{
+  "commodity_id": "tomato",
+  "region": null,
+  "total_demand_kg": 60000.0,
+  "buyer_count": 4,
+  "top_buyer_share_pct": 41.7,
+  "hhi_concentration": 2881.9,
+  "breakdown_by_quality": {
+    "GRADE_A": 25000.0,
+    "GRADE_B": 15000.0,
+    "GRADE_C": 20000.0
+  },
+  "breakdown_by_type": {
+    "retailer": 15000.0,
+    "processor": 25000.0,
+    "wholesaler": 20000.0
+  },
+  "provenance_status": "DEMO",
+  "is_demo": true
+}
+```
+
+---
+
+### 9.6 Logistics, Storage & Perishability Feasibility Endpoints (Step 13)
+
+#### `GET /api/v1/logistics/modes`
+Lists registered transport modes and their capacity and cost rate parameters.
+
+##### Response Payload (200 OK)
+```json
+[
+  {
+    "id": "DEMO_TRACTOR_TROLLEY",
+    "name": "Tractor Trolley",
+    "capacity_kg": 3000.0,
+    "speed_kmh": 25.0,
+    "cost_per_km": 25.0,
+    "min_charge": 300.0,
+    "cooling_available": false,
+    "provenance_status": "DEMO",
+    "is_demo": true
+  }
+]
+```
+
+#### `POST /api/v1/logistics/evaluate`
+Factual multi-stage pathway feasibility evaluation across Scenarios A through D with additive friction costs, decoupled decay, and zero recommendation ranking.
+
+##### Request Payload
+```json
+{
+  "commodity_id": "tomato",
+  "quantity_kg": 2000.0,
+  "origin_location": "Mohali Rural Farmgate",
+  "origin_latitude": 30.6942,
+  "origin_longitude": 76.7179,
+  "available_from": "2026-09-15",
+  "available_until": "2026-09-25",
+  "transport_mode_id": "DEMO_LCV_TATA_407",
+  "storage_duration_days": 14
+}
+```
+
+##### Response Payload (200 OK)
+Headers:
+- `X-AgriClutch-Step: 13`
+- `X-AgriClutch-DataSource: DEMO_BENCHMARK_SEED`
+
+```json
+{
+  "scenarios": [
+    {
+      "scenario_id": "A_LOCAL_MANDI",
+      "scenario_name": "Immediate Local Mandi Sale",
+      "total_elapsed_hours": 0.5,
+      "feasibility_status": "FEASIBLE",
+      "total_friction_cost": 724.8,
+      "economic_status": "DEMO_ASSUMPTION",
+      "stages": [
+        {
+          "stage_type": "FARM_GATE_LOADING",
+          "cost": 240.0,
+          "duration_hours": 0.5,
+          "quality_loss_pct": 0.5,
+          "physical_loss_pct": 0.2
+        }
+      ],
+      "perishability": {
+        "days": [0, 1],
+        "quantity_remaining_kg": [2000.0, 1937.5],
+        "quality_factor": [1.0, 0.94]
+      },
+      "warnings": [],
+      "provenance": {
+        "status": "DEMO",
+        "is_demo": true,
+        "source": "AgriClutch Step 13 Synthetic Benchmark Seed"
+      }
+    }
+  ]
+}
+```
+
+#### `GET /api/v1/storage/facilities`
+Queries available storage facilities with capacity limits, temperature regimes, and holding rates.
+
+#### `GET /api/v1/perishability/trajectory`
+Calculates decoupled physical retention $S(t) = \exp(-\delta t)$ and quality factor $F_{\text{quality}}(t) = F_0 \times \exp(-\beta t)$ trajectories.
 
 ---
 

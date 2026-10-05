@@ -71,3 +71,7 @@ pgdata/
 # Clean-Room Reference Repositories (Third-party academic / unlicensed)
 references/
 
+# Local archives and extraneous unpacked directories
+*.zip
+SIH64/
+
