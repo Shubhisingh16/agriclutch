@@ -4,6 +4,7 @@ Contains domain services for data cleaning, forecasting, perishability, logistic
 """
 
 from app.services.buyer_service import BuyerService
+from app.services.decision_service import DecisionService
 from app.services.forecast_service import ForecastService
 from app.services.logistics_nrv_adapter import LogisticsNRVAdapter
 from app.services.logistics_service import LogisticsService
@@ -15,4 +16,5 @@ __all__ = [
     "NRVService",
     "LogisticsService",
     "LogisticsNRVAdapter",
+    "DecisionService",
 ]

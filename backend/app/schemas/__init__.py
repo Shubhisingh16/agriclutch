@@ -113,5 +113,32 @@ __all__ = [
     "EvaluatePathwaysRequest",
     "EvaluatePathwaysResponse",
     "EconomicProvenanceSchema",
+    "ConstraintItemResponse",
+    "ConstraintSummaryResponse",
+    "CounterfactualDeltaResponse",
+    "OptimalSellingPlanResponse",
+    "OptimizePlanRequest",
+    "PlanAllocationResponse",
+    "RiskMetricsResponse",
+    "SensitivityPointResponse",
+    "SensitivityRequest",
+    "SensitivitySweepResponse",
+    "WhatIfSimulationRequest",
+    "WhatIfSimulationResponse",
 ]
+
+from app.schemas.decision import (
+    ConstraintItemResponse,
+    ConstraintSummaryResponse,
+    CounterfactualDeltaResponse,
+    OptimalSellingPlanResponse,
+    OptimizePlanRequest,
+    PlanAllocationResponse,
+    RiskMetricsResponse,
+    SensitivityPointResponse,
+    SensitivityRequest,
+    SensitivitySweepResponse,
+    WhatIfSimulationRequest,
+    WhatIfSimulationResponse,
+)
 

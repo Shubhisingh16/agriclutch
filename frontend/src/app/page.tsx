@@ -17,6 +17,8 @@ import { NRVCard } from "@/components/dashboard/NRVCard";
 import { BuyerIntelligencePanel } from "@/components/buyer/BuyerIntelligencePanel";
 import { LogisticsPanel } from "@/components/logistics/LogisticsPanel";
 import { StoragePanel } from "@/components/logistics/StoragePanel";
+import { DecisionDashboard } from "@/components/decision/DecisionDashboard";
+import { WhatIfSimulator } from "@/components/decision/WhatIfSimulator";
 import { LoadingState, EmptyState, ErrorState } from "@/components/dashboard/StatusState";
 
 interface SystemHealth {
@@ -579,6 +581,18 @@ export default function Home() {
                 <div className="space-y-6">
                   <StoragePanel
                     selectedCommodityId={selectedCommodityId || "tomato"}
+                  />
+                </div>
+              ) : activeTab === "plan" ? (
+                <div className="space-y-6">
+                  <DecisionDashboard
+                    commodityId={selectedCommodityId || "tomato"}
+                  />
+                </div>
+              ) : activeTab === "simulator" ? (
+                <div className="space-y-6">
+                  <WhatIfSimulator
+                    commodityId={selectedCommodityId || "tomato"}
                   />
                 </div>
               ) : activeTab === "dashboard" ? (

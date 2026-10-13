@@ -8,6 +8,7 @@ from fastapi import APIRouter
 from app.api.v1.endpoints.buyer_matching import router as buyer_matching_router
 from app.api.v1.endpoints.buyers import router as buyers_router
 from app.api.v1.endpoints.commodities import router as commodities_router
+from app.api.v1.endpoints.decision import router as decision_router
 from app.api.v1.endpoints.demand import router as demand_router
 from app.api.v1.endpoints.forecasts import router as forecasts_router
 from app.api.v1.endpoints.logistics import router as logistics_router
@@ -33,5 +34,8 @@ api_v1_router.include_router(demand_router)
 api_v1_router.include_router(logistics_router)
 api_v1_router.include_router(storage_router)
 api_v1_router.include_router(perishability_router)
+
+# Step 14: Integrated Optimal Selling Plan & What-If Simulator
+api_v1_router.include_router(decision_router)
 
 

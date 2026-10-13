@@ -46,5 +46,12 @@ __all__ = [
     "LogisticsRouteModel",
     "PerishabilityParameterModel",
     "LogisticsScenarioAuditModel",
+    "OptimalSellingPlanModel",
+    "PlanAllocationModel",
 ]
+
+from app.models.decision import (
+    OptimalSellingPlanModel,
+    PlanAllocationModel,
+)
 
